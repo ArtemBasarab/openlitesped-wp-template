@@ -1,0 +1,41 @@
+version: "4"
+services:
+  mysql:
+    image: mysql:8.3
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=wpdb
+      - MYSQL_USER=myers
+      - MYSQL_PASSWORD=root
+    restart: always
+    volumes:
+      - db:/var/lib/mysql/
+  wordpress:
+    image: artmyers/openlitespeedwordpress:ols-1.7.19-wp-6.4.3-php-8.2
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+      - 7080:7080
+    volumes:
+      - wp:/var/www/vhosts/localhost/html/
+      - ./plugin:/var/www/vhosts/localhost/html/wp-content/plugins/custom-core-plugin
+      - ./theme:/var/www/vhosts/localhost/html/wp-content/themes/custom-theme
+    depends_on:
+      - mysql
+    restart: always
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    depends_on:
+      - mysql
+    ports:
+      - 8181:80
+    environment:
+      MYSQL_USERNAME: myers
+      MYSQL_ROOT_PASSWORD: root
+      PMA_HOST: mysql
+volumes:
+  db:
+  wp:
