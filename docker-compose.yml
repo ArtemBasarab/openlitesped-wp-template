@@ -13,7 +13,7 @@ services:
     volumes:
       - db:/var/lib/mysql/
   wordpress:
-    image: artmyers/openlitespeedwordpress:ols-1.7.19-wp-6.4.3-php-8.2
+    image: artmyers/artmyers/openlitespeed_wordpress:ols1.7.19-wp6.4.3-php8.2
     ports:
       - 80:80
       - 443:443
